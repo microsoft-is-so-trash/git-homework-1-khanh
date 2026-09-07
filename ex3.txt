@@ -1,0 +1,43 @@
+cd ~                          
+mkdir ex3                     
+cd ex3                        
+mkdir dir1 dir2          
+touch HelloWorld.txt          
+cp HelloWorld.txt dir1/        
+cp -i HelloWorld.txt dir1/    
+mv HelloWorld.txt Hi.txt       
+mv Hi.txt dir2/                
+cd ~/ex3
+ln dir2/Hi.txt Hi-hard         # 1. hard link trong ex3
+ln dir2/Hi.txt dir1/Hi-hard    #    hard link trong dir1
+ln dir2/Hi.txt dir2/Hi-hard    #    hard link trong dir2
+ln -s dir2/Hi.txt Hi-sym       # 2. symbolic link trong ex3
+rm Hi-hard                     # 3. xoá hard link trong ex3
+rm dir2/Hi.txt                 # 4. xoá file gốc Hi.txt
+ls -li                         # 5. xem inode — copy kết quả vào ex3.txt
+# 1. Gộp /bin và /usr/bin, sort, bỏ trùng, đếm số lượng
+ls /bin /usr/bin | sort | uniq | wc -l
+
+# 2. Lọc ra tên có chứa "zip"
+ls /bin /usr/bin | sort | uniq | grep zip
+
+# 3. Tạo file text ≥30 dòng, ví dụ:
+seq 1 30 > mytext.txt          # hoặc dùng nano/vim để tự viết nội dung
+head -n 5 mytext.txt           # 5 dòng đầu
+tail -n 5 mytext.txt           # 5 dòng cuối
+wc mytext.txt                  # dòng, từ, byte (wc -l -w -c)
+
+# 4. Liệt kê thư mục, lưu ra file + hiện trên màn hình
+ls -l | tee full_listing.txt
+mkdir permissions
+cd permissions
+touch secret.txt shared.txt public.txt
+
+chmod 600 secret.txt    # rw------- : chỉ owner đọc/ghi
+chmod 664 shared.txt    # rw-rw-r-- : owner+group đọc/ghi, other chỉ đọc
+chmod 777 public.txt    # rwxrwxrwx : mọi người đọc/ghi/thực thi
+
+umask                   # 1. xem umask hiện tại (thường là 0022)
+touch newfile.txt
+ls -l newfile.txt       # 2. xem quyền thực tế
+
